@@ -1,88 +1,170 @@
-# CampusFix — Full-stack campus complaint management
+# CampusFix – College Issue Reporting System
 
-CampusFix uses React + Vite, Spring Boot 3, Spring Security, JWT authentication, and MySQL. This package contains source code and setup instructions; dependencies are installed locally by npm/Maven.
+## Overview
 
-## Features in this version
-- Student registration and login; logout; JWT-based API authentication.
-- BCrypt password hashing; no public admin registration.
-- Server-side role enforcement: students see only their own complaints; administrators can see all complaints and manage status/assignment.
-- Submit complaints with title, category, location, priority, description, and an optional image attachment (PNG/JPEG/WebP up to 1 MB).
-- Search and filter by status; complaint tracking IDs; dashboard statistics.
-- Admin can assign a staff name/email and update status (Submitted, Assigned, In Progress, Resolved, Rejected), with optional resolution note.
-- MySQL persistence, environment-based configuration, configurable CORS, and Git ignore rules.
+CampusFix is a full-stack web application designed to simplify the process of reporting, tracking, and managing issues within a college campus. It provides a centralized platform where students can report problems related to campus facilities and services, while administrators can monitor complaints and update their status.
 
-## Requirements
-- Java 21
-- Maven 3.9+
-- Node.js 20+ and npm
-- MySQL 8+
+The system improves communication between students and college administration by providing a structured and transparent complaint management process.
 
-## 1. Configure local MySQL
-Create a database and application user if you have not already done so. Run in MySQL as an administrator (replace the password with your own):
+## Features
 
-```sql
-CREATE DATABASE IF NOT EXISTS campusfix;
-CREATE USER IF NOT EXISTS 'campusfix_user'@'localhost' IDENTIFIED BY 'CHOOSE_A_STRONG_PASSWORD';
-GRANT ALL PRIVILEGES ON campusfix.* TO 'campusfix_user'@'localhost';
-FLUSH PRIVILEGES;
+### Student Module
+- Student registration and login
+- Submit campus-related complaints
+- View submitted complaints
+- Track complaint status
+- Access complaint information through a dashboard
+
+### Admin Module
+- Administrator login
+- View and manage reported complaints
+- Update complaint status
+- Monitor reported campus issues
+
+### General Features
+- Full-stack web application
+- Database-backed complaint storage
+- REST API integration
+- Responsive web interface
+- Cloud deployment architecture
+
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Frontend | React.js |
+| Build Tool | Vite |
+| Backend | Java, Spring Boot |
+| Database | MySQL |
+| API | REST API |
+| Frontend Deployment | Vercel |
+| Backend Deployment | Render |
+| Database Hosting | Aiven |
+
+## System Architecture
+
+The application follows a three-layer architecture:
+
+1. **Frontend:** React.js provides the user interface for students and administrators.
+2. **Backend:** Spring Boot handles authentication, complaint management, business logic, and API requests.
+3. **Database:** MySQL stores user and complaint information.
+
+The frontend communicates with the backend through REST APIs, and the backend interacts with the MySQL database to store and retrieve information.
+
+## Application Workflow
+
+1. A student registers or logs in to the application.
+2. The student submits a complaint describing a campus issue.
+3. The backend processes the request and stores the complaint in the database.
+4. The administrator logs in and views submitted complaints.
+5. The administrator updates the complaint status as the issue progresses.
+6. The student checks the dashboard to view the latest complaint status.
+
+## Live Demo
+
+- **Frontend:** https://campus-fix-project-frontend.vercel.app
+- **Backend:** https://campusfix-project-smfl.onrender.com
+
+Note: The backend URL is the service endpoint and may not display a web page when opened directly. The application requires the frontend and backend to be correctly configured to communicate with each other.
+
+## Repository Structure
+
+```text
+CampusFix-Project/
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── ...
+├── backend/
+│   ├── src/
+│   ├── pom.xml
+│   ├── Dockerfile
+│   └── ...
+└── README.md
 ```
 
-In the PowerShell terminal that will run the backend, set the environment variables (use your real local database password; do not put it in source files):
+## Local Setup
 
-```powershell
-$env:DB_URL="jdbc:mysql://localhost:3306/campusfix?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
-$env:DB_USERNAME="campusfix_user"
-$env:DB_PASSWORD="YOUR_LOCAL_MYSQL_PASSWORD"
-$env:APP_JWT_SECRET="replace-this-with-a-random-secret-at-least-32-characters-long"
-$env:CORS_ALLOWED_ORIGINS="http://localhost:5173"
+### Prerequisites
+
+Install the following software:
+
+- Node.js and npm
+- Java Development Kit (JDK 21)
+- Maven
+- MySQL
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/laxmirathna/CampusFix-Project.git
+cd CampusFix-Project
 ```
 
-For an admin account, set these before the first backend startup. Use an email/password you control; the password must be at least 12 characters.
+### 2. Configure the Database and Backend
 
-```powershell
-$env:ADMIN_EMAIL="your-admin-email@example.com"
-$env:ADMIN_PASSWORD="YOUR_STRONG_ADMIN_PASSWORD"
-$env:ADMIN_NAME="CampusFix Administrator"
-```
+Open the `backend` directory and configure the required environment variables for the MySQL database and administrator account.
 
-The configured admin account is created/promoted at startup. If you omit these variables, public registration creates **student** accounts only. There is no hard-coded default admin password.
+Required configuration includes:
 
-## 2. Run Spring Boot
-From the project root in a terminal with the variables above set:
+- `DB_URL`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `APP_JWT_SECRET`
+- `CORS_ALLOWED_ORIGINS`
 
-```powershell
+Use your own local database credentials and secure application secrets. Do not commit passwords, tokens, or `.env` files to GitHub.
+
+Start the backend using Maven:
+
+```bash
 cd backend
 mvn spring-boot:run
 ```
 
-The backend listens on `http://localhost:8080`. Keep this terminal open.
+### 3. Configure and Start the Frontend
 
-## 3. Run React
-Open a second terminal in the project root:
+Open another terminal:
 
-```powershell
+```bash
 cd frontend
 npm install
+```
+
+Create or configure the frontend environment variable `VITE_API_URL` to point to the backend API base URL. For local development, use the correct local backend address and port.
+
+Start the frontend:
+
+```bash
 npm run dev
 ```
 
-Open the local URL Vite prints, normally `http://localhost:5173`. Register a student account to start.
+Open the local URL displayed in the terminal, usually `http://localhost:5173`.
 
-## 4. Test the core workflow
-1. Register a student account and sign in.
-2. Submit a complaint and verify it appears in the student's list.
-3. Sign out and sign in with the admin credentials configured above.
-4. Verify the admin can see the complaint, assign a staff member, and update its status.
-5. Sign back in as the student and verify the status change is visible.
-6. Restart the backend and confirm records remain in MySQL.
+## Future Enhancements
 
-## Deployment configuration
-Set environment variables in the backend host; never commit secrets. Required values: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `APP_JWT_SECRET` (32+ characters), and `CORS_ALLOWED_ORIGINS` (comma-separated exact frontend origins). For administrator bootstrap, set `ADMIN_EMAIL`, `ADMIN_PASSWORD` (12+ characters), and optionally `ADMIN_NAME`. Configure `VITE_API_URL` as a **frontend build-time** variable to the deployed backend base URL without `/api` (for example, `https://your-backend.example.com`).
+- Email notifications for complaint updates
+- Complaint priority and category filters
+- Image attachments for reported issues
+- Complaint analytics and reporting
+- Role-based access control
+- Improved mobile experience
 
-A typical frontend host builds from the `frontend` directory with `npm run build` and publishes `dist`. A backend host builds from `backend` using `mvn clean package` and runs `java -jar target/backend-0.0.1-SNAPSHOT.jar` (or its platform's Maven build/run configuration). Confirm the current provider's pricing/free limits before deployment; do not enable paid services without approval.
+## Project Objective
 
-## Security notes and limitations
-- JWT tokens are stored in browser local storage in this starter implementation. For higher-risk production use, consider secure HttpOnly cookies and additional rate limiting.
-- Admin bootstrap only promotes the configured email; changing `ADMIN_PASSWORD` after the account already exists does not reset its password. Use a controlled password reset process if needed.
-- This version does not implement email verification, password reset emails, push/email notifications, or a staff-specific login/role.
-- Do not commit `.env`, passwords, database URLs containing credentials, JWT secrets, or `node_modules`.
+The primary objective of CampusFix is to digitize the campus complaint management process, reduce communication delays, and help college administrators track and resolve reported issues more efficiently.
+
+## License
+
+This project is developed for academic and educational purposes. Add a specific open-source license if you intend to distribute it under particular reuse terms.
+
+## Author
+
+**laxmi rathna**
+
+GitHub: https://github.com/laxmirathna
+
