@@ -54,7 +54,8 @@ The frontend communicates with the backend through REST APIs, and the backend in
 
 The following diagram illustrates the complete workflow of CampusFix, from student complaint submission to administrator review and status tracking.
 
-![CampusFix Workflow Diagram](docs/campusfix-workflow.png)
+![CampusFix Workflow Diagram](<img width="1536" height="1024" alt="CampusFix College Issue Workflow" src="https://github.com/user-attachments/assets/4284949d-bc6a-4469-84f1-8e4f52042c0c" />
+)
 ## Application Workflow
 
 1. A student registers or logs in to the application.
