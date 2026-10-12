@@ -50,7 +50,11 @@ The application follows a three-layer architecture:
 3. **Database:** MySQL stores user and complaint information.
 
 The frontend communicates with the backend through REST APIs, and the backend interacts with the MySQL database to store and retrieve information.
+## Workflow Diagram
 
+The following diagram illustrates the complete workflow of CampusFix, from student complaint submission to administrator review and status tracking.
+
+![CampusFix Workflow Diagram](docs/campusfix-workflow.png)
 ## Application Workflow
 
 1. A student registers or logs in to the application.
