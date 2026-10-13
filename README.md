@@ -54,7 +54,8 @@ The frontend communicates with the backend through REST APIs, and the backend in
 
 The following diagram illustrates the complete workflow of CampusFix, from student complaint submission to administrator review and status tracking.
 
-![Uploading CampusFix College Issue Workflow.png…]()
+![work flow Image]![Uploading CampusFix College Issue Workflow.png…]()
+
 
 ## Application Workflow
 
@@ -70,6 +71,7 @@ The following diagram illustrates the complete workflow of CampusFix, from stude
 - **Frontend:** https://campus-fix-project-frontend.vercel.app
 - **Backend:** https://campusfix-project-smfl.onrender.com
 - **LIVE:** https://campus-fix-project-frontend.vercel.app/
+  
 Note: The backend URL is the service endpoint and may not display a web page when opened directly. The application requires the frontend and backend to be correctly configured to communicate with each other.
 
 ## Repository Structure
